@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>دليل تشغيل أداة ER1991 على GitHub</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@page { size: 720px 1020px; margin: 0; }
+:root{
+  --navy:#0D1B3D;   /* اللون الأساسي — العناوين والألواح */
+  --blue:#1E88E5;   /* لون التمييز — الروابط والخطوات */
+  --bg:#F6F8FC;     /* خلفية الصفحات */
+  --ink:#2A3550;    /* نص المتن */
+  --line:#DCE3F0;   /* حدود وفواصل */
+}
+html,body{
+  margin:0; padding:0; width:720px;
+  background:var(--bg); color:var(--ink);
+  font-family:'Noto Naskh Arabic','DejaVu Sans',sans-serif;
+  font-size:15.5px; line-height:1.85;
+  line-break:strict; word-break:normal;
+}
+@media screen{
+  html{ height:auto; display:flex; justify-content:center; background:#22293a; }
+  body{ transform-origin:top center; margin:20px auto; box-shadow:0 8px 40px rgba(0,0,0,.4); }
+}
+*{ box-sizing:border-box; }
+p,td,li,div{ overflow-wrap:break-word; }
+h1,h2,h3,h4,.ui{ font-family:'Cairo','Noto Naskh Arabic',sans-serif; }
+
+/* ═══════════ الغلاف ═══════════ */
+.cover{
+  width:720px; height:1020px; break-after:page; overflow:hidden;
+  background:var(--bg); position:relative;
+  display:flex; flex-direction:column; justify-content:center;
+  padding:64px 60px;
+}
+.cover .deco-circle{ position:absolute; border-radius:50%; }
+.cover .c1{ width:320px; height:320px; border:2px solid var(--line); top:230px; left:34px; }
+.cover .c2{ width:190px; height:190px; border:2px solid var(--blue); opacity:.25; bottom:120px; left:80px; }
+.cover .c3{ width:110px; height:110px; background:var(--navy); opacity:.05; top:120px; right:44px; }
+.cover .badge{
+  display:inline-block; align-self:flex-start;
+  background:var(--navy); color:#fff; font-family:'Cairo',sans-serif;
+  font-size:14px; font-weight:700; letter-spacing:.5px;
+  padding:7px 18px; border-radius:20px; margin-bottom:30px;
+}
+.cover .ttl{
+  font-size:52px; font-weight:900; color:var(--navy); line-height:1.28; margin:0 0 14px;
+}
+.cover .ttl .hl{ color:var(--blue); }
+.cover .divider{ width:110px; height:5px; background:var(--blue); border-radius:3px; margin:28px 0 42px; }
+.cover .sub{ font-size:18px; line-height:2; color:var(--ink); max-width:560px; margin-bottom:36px; }
+.cover .chips{ display:flex; flex-wrap:wrap; gap:10px; max-width:560px; margin-bottom:40px; }
+.cover .chip{
+  background:#fff; border:1.5px solid var(--line); border-radius:12px;
+  padding:10px 16px; font-family:'Cairo',sans-serif; font-size:14px; font-weight:700; color:var(--navy);
+}
+.cover .chip b{ color:var(--blue); font-weight:900; }
+.cover .note{
+  background:var(--navy); color:#E7ECF6; border-radius:14px;
+  padding:16px 20px; font-size:14px; line-height:1.9; max-width:560px;
+}
+.cover .note b{ color:#fff; }
+.cover .edition{
+  position:absolute; bottom:44px; right:60px; left:60px;
+  display:flex; justify-content:space-between; align-items:center;
+  border-top:1.5px solid var(--line); padding-top:16px;
+  font-family:'Cairo',sans-serif; font-size:13px; color:#6B7690; font-weight:600;
+}
+
+/* ═══════════ المتن ═══════════ */
+.main-content{ padding:56px 58px 44px; }
+.chapter-header{ break-after:avoid; break-inside:avoid; margin-top:26px; }
+.chapter-header:first-child{ margin-top:0; }
+.sec-tag{
+  display:inline-block; background:var(--blue); color:#fff;
+  font-family:'Cairo',sans-serif; font-size:12.5px; font-weight:800;
+  padding:4px 14px; border-radius:14px; margin-bottom:8px; letter-spacing:.3px;
+}
+.sec-title{ font-size:27px; font-weight:900; color:var(--navy); line-height:1.4; margin:0 0 6px; }
+.sec-divider{ width:70px; height:4px; background:var(--blue); border-radius:2px; margin:6px 0 14px; }
+.sub-title{ font-family:'Cairo',sans-serif; font-size:18.5px; font-weight:800; color:var(--navy); margin:20px 0 8px; break-after:avoid; }
+p{ margin:0 0 12px; text-align:justify; }
+.lead{ font-size:16px; }
+
+/* الخطوات */
+.step{
+  display:flex; gap:14px; background:#fff; border:1.5px solid var(--line);
+  border-radius:14px; padding:14px 16px; margin-bottom:12px; break-inside:avoid;
+}
+.step .num{
+  flex-shrink:0; width:34px; height:34px; border-radius:50%;
+  background:var(--navy); color:#fff; font-family:'Cairo',sans-serif;
+  font-weight:800; font-size:16px; display:flex; align-items:center; justify-content:center;
+  margin-top:3px;
+}
+.step .st-body{ flex:1; min-width:0; }
+.step .st-title{ font-family:'Cairo',sans-serif; font-weight:800; font-size:15.5px; color:var(--navy); margin-bottom:3px; }
+.step .st-desc{ font-size:14.5px; line-height:1.8; }
+.step .st-desc b{ color:var(--navy); }
+.step .st-desc .path{ background:#EDF2FB; border-radius:6px; padding:1px 8px; font-family:'Cairo',sans-serif; font-size:13px; color:var(--navy); font-weight:700; white-space:nowrap; }
+
+/* الأوامر الطرفية — اتجاه يسار-يمين داخلي */
+.cmd{
+  direction:ltr; text-align:left; background:var(--navy); color:#DCE7FA;
+  font-family:'DejaVu Sans Mono',monospace; font-size:12.5px; line-height:1.7;
+  border-radius:10px; padding:12px 16px; margin:10px 0 14px;
+  overflow-wrap:break-word; word-break:break-all; break-inside:avoid;
+}
+.cmd .cm{ color:#7FA8E8; }
+
+/* الجداول */
+table{ width:100%; border-collapse:collapse; margin:10px 0 16px; break-inside:avoid; }
+th{
+  background:var(--navy); color:#fff; font-family:'Cairo',sans-serif;
+  font-weight:700; font-size:13.5px; padding:9px 12px; text-align:right;
+}
+td{
+  background:#fff; border:1px solid var(--line); font-size:13.8px;
+  padding:8px 12px; vertical-align:top; line-height:1.75;
+}
+tr:nth-child(even) td{ background:#FBFCFE; }
+td.k{ font-family:'Cairo',sans-serif; font-weight:700; color:var(--navy); white-space:nowrap; }
+td .mono{ direction:ltr; unicode-bidi:embed; font-family:'DejaVu Sans Mono',monospace; font-size:12px; color:var(--navy); }
+
+/* بطاقات التنبيه */
+.note-box{
+  border-radius:12px; padding:13px 16px; margin:12px 0 14px; break-inside:avoid;
+  font-size:14.3px; line-height:1.8;
+}
+.note-box.warn{ background:#FFF7E8; border:1.5px solid #EAD9B0; }
+.note-box.info{ background:#EAF2FD; border:1.5px solid #C3D9F5; }
+.note-box.ok{ background:#EDF9EF; border:1.5px solid #C4E5CB; }
+.note-box b.t{ font-family:'Cairo',sans-serif; display:block; margin-bottom:3px; color:var(--navy); }
+
+/* خرائط ومقارنات */
+.map{ display:flex; flex-wrap:wrap; gap:10px; margin:12px 0 14px; }
+.map .mcard{
+  flex:1 1 190px; min-width:180px; max-width:100%;
+  background:#fff; border:1.5px solid var(--line); border-radius:14px;
+  padding:14px 16px; break-inside:avoid;
+}
+.map .mcard .mh{ font-family:'Cairo',sans-serif; font-weight:800; color:var(--navy); font-size:15px; margin-bottom:5px; }
+.map .mcard .mb{ font-size:13.8px; line-height:1.75; }
+
+ul.clean{ margin:0 0 12px; padding-right:22px; }
+ul.clean li{ margin-bottom:7px; text-align:right; }
+ul.clean li b{ color:var(--navy); }
+
+/* ═══════════ صفحة الختام ═══════════ */
+.ending{
+  width:720px; height:1020px; break-before:page; overflow:hidden;
+  background:var(--bg); position:relative;
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  text-align:center; padding:70px;
+}
+.ending .frame{ border:2px solid var(--line); border-radius:20px; padding:46px 44px; max-width:520px; }
+.ending .big{ font-family:'Cairo',sans-serif; font-size:30px; font-weight:900; color:var(--navy); margin-bottom:14px; }
+.ending .txt{ font-size:15.5px; line-height:2; color:var(--ink); }
+.ending .ver{ margin-top:26px; font-family:'Cairo',sans-serif; font-size:13px; color:#6B7690; font-weight:600; }
+.ending .deco-line{ width:80px; height:4px; background:var(--blue); border-radius:2px; margin:18px auto; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ الغلاف ═══════════════════ -->
+<div class="cover">
+  <div class="deco-circle c1"></div>
+  <div class="deco-circle c2"></div>
+  <div class="deco-circle c3"></div>
+  <div class="badge">ER1991 SMART INVESTMENT RADAR PRO — v7.0</div>
+  <div class="ttl">دليل نقل الأداة<br>وتشغيلها على</div>
+  <div class="ttl" style="color:var(--blue); margin-top:-6px">GitHub</div>
+  <div class="divider"></div>
+  <div class="sub">خطوة بخطوة: من Google Colab إلى مستودع GitHub متكامل — تشغيل تفاعلي عبر Codespaces، وتشغيل آلي عبر Actions، ونشر التقارير على Pages، بنفس منطق الكود وحساباته ونتائجه دون أي تغيير.</div>
+  <div class="chips">
+    <div class="chip"><b>3</b> طرق تشغيل</div>
+    <div class="chip"><b>5</b> صيغ تصدير</div>
+    <div class="chip">نفس <b>الواجهة</b> والنتائج</div>
+    <div class="chip">بدون <b>أي</b> تعديل في المنطق</div>
+  </div>
+  <div class="note"><b>تنويه:</b> هذه أداة مساعدة في قراءة وفحص الأسهم ودعم القرار الاستثماري، وليست توصية بالشراء أو البيع. القرار النهائي ومسؤوليته على المستخدم وحده.</div>
+  <div class="edition">
+    <span>الإصدار v7.0-GitHub · نوفمبر 2026</span>
+    <span>ER1991 Radar</span>
+  </div>
+</div>
+
+<!-- ═══════════════════ المتن ═══════════════════ -->
+<div class="main-content">
+
+  <!-- ═══ 1: نظرة عامة ═══ -->
+  <div class="chapter-header">
+    <div class="sec-tag">القسم الأول</div>
+    <div class="sec-title">نظرة عامة: ما الذي تغيّر وما الذي بقي كما هو</div>
+    <div class="sec-divider"></div>
+  </div>
+
+  <p class="lead">الهدف من هذه الحزمة هو نقل أداة <b>ER1991 Smart Investment Radar PRO v7.0</b> من بيئة Google Colab إلى منصة GitHub مع الحفاظ الكامل على طريقة العمل: نفس محرّك التحليل، ونفس المعادلات والمؤشرات، ونفس الواجهة التفاعلية بتصميمها، ونفس المدخلات والإعدادات الافتراضية، ونفس ملفات النتائج بصيغها الخمس. الكود الأساسي في ملف <span class="mono">er1991_radar.py</span> هو نفسه حرفياً بإصداره v7.0، ولم تُحذف أو تُعدَّل أي معادلة أو قرار حسابي فيه.</p>
+
+  <p>التعديلات الوحيدة هي خمسة تعديلات بيئية موثّقة داخل رأس الملف، وظيفتها التكيّف مع البيئة الجديدة فقط: تثبيت التبعيات عبر ملف المتطلبات بدل خلية كولاب، ومسار مجلد التقارير خارج /content، ورسالة إرشادية للتنزيل خارج كولاب، وتخطٍّ آمن بديل الخطأ لتصدير Google Sheet الذي يتطلب تسجيل دخول جوجل، ونقطة تشغيل إضافية من سطر الأوامر بجانب الواجهة التفاعلية. أيٌّ من هذه لا يمس منطق التحليل أو النتائج بأي شكل.</p>
+
+  <table>
+    <tr><th style="width:24%">الجانب</th><th style="width:38%">في Google Colab</th><th>على GitHub</th></tr>
+    <tr><td class="k">الواجهة التفاعلية</td><td>خلايا كولاب بواجهة الأزرار والقوائم</td><td>نفس الواجهة تماماً عبر دفتر Jupyter في Codespaces</td></tr>
+    <tr><td class="k">مجلد التقارير</td><td><span class="mono">/content/ER1991_Reports</span></td><td><span class="mono">./ER1991_Reports</span> بجانب الكود</td></tr>
+    <tr><td class="k">استلام الملفات</td><td>تنزيل تلقائي من المتصفح</td><td>شجرة الملفات (Codespaces) أو مرفقات Artifacts (Actions) أو Pages</td></tr>
+    <tr><td class="k">الإعدادات</td><td>لوحة الإعدادات في الواجهة</td><td>نفس اللوحة + ملف <span class="mono">config.json</span> للتشغيل الآلي</td></tr>
+    <tr><td class="k">Google Sheet</td><td>يعمل بعد تسجيل الدخول</td><td>يُتخطى برسالة واضحة (يتطلب حساب جوجل داخل كولاب)</td></tr>
+    <tr><td class="k">التشغيل الآلي</td><td>يدوي في كل مرة</td><td>زر تشغيل في Actions + جدولة يومية اختيارية</td></tr>
+    <tr><td class="k">النتائج والحسابات</td><td colspan="2">مطابقة 100% — نفس الكود ونفس مصادر البيانات (ياهو + TradingView)</td></tr>
+  </table>
+
+  <!-- ═══ 2: ملفات المستودع ═══ -->
+  <div class="chapter-header">
+    <div class="sec-tag">القسم الثاني</div>
+    <div class="sec-title">ملفات المستودع ووظيفة كل ملف</div>
+    <div class="sec-divider"></div>
+  </div>
+
+  <p>تتكون الحزمة من تسعة ملفات ومجلدين نظاميين. ارفعها جميعاً كما هي إلى المستودع — كل ملف منها ضروري لواحدة أو أكثر من طرق التشغيل الثلاث، ولا يحتاج أي منها إلى تعديل يدوي قبل الرفع.</p>
+
+  <table>
+    <tr><th style="width:34%">الملف / المجلد</th><th>وظيفته</th></tr>
+    <tr><td class="k"><span class="mono">er1991_radar.py</span></td><td>الكود الأساسي الكامل v7.0 (المحرّك، المؤشرات، القيمة العادلة، التصديرات، الواجهة) — مطابق لكولاب مع التعديلات البيئية الخمسة الموثقة.</td></tr>
+    <tr><td class="k"><span class="mono">run_radar.py</span></td><td>مشغّل سطر الأوامر للتشغيل دون واجهة (Actions وطرفية Codespaces) — يستدعي دوال الملف الأساسي نفسها دون أي منطق تحليل جديد.</td></tr>
+    <tr><td class="k"><span class="mono">config.json</span></td><td>الرموز المفحوصة وكل إعدادات التشغيل الآلي — الملف الوحيد الذي تعدّله لتغيير الرموز أو الخيارات.</td></tr>
+    <tr><td class="k"><span class="mono">ER1991_Radar.ipynb</span></td><td>دفتر Jupyter الذي يعرض الواجهة التفاعلية نفسها الموجودة في كولاب عند فتحه داخل Codespaces.</td></tr>
+    <tr><td class="k"><span class="mono">requirements.txt</span></td><td>قائمة تبعيات بايثون — نفس حزم خلية التثبيت في كولاب.</td></tr>
+    <tr><td class="k"><span class="mono">README.md</span></td><td>صفحة تعريف مختصرة تظهر أسفل المستودع مع الخطوات السريعة.</td></tr>
+    <tr><td class="k"><span class="mono">.github/workflows/radar.yml</span></td><td>تعريف التشغيل التلقائي على GitHub Actions: زر التشغيل اليدوي، الجدولة الاختيارية، رفع المرفقات، حفظ التقارير، ونشر Pages.</td></tr>
+    <tr><td class="k"><span class="mono">.devcontainer/</span></td><td>مجلد بيئة Codespaces: يثبّت كل التبعيات تلقائياً عند فتح البيئة دون أي خطوة يدوية.</td></tr>
+    <tr><td class="k"><span class="mono">.gitignore</span></td><td>يمنع رفع تقارير التشغيل المحلية المؤقتة إلى المستودع.</td></tr>
+  </table>
+
+  <div class="note-box info"><b class="t">ملاحظة عن المجلدات المخفية</b>
+  المجلدان <b>.github</b> و<b>.devcontainer</b> يبدآن بنقطة، وهما ضروريان: الأول يفعّل زر التشغيل الآلي، والثاني يفعّل التثبيت التلقائي في Codespaces. تأكد بعد الرفع أن هذين المجلدين ظاهرا في المستودع مع محتوياتهما كاملة، فهما الملفان الوحيدان الذي قد تُهمل واجهة الويب عند السحب والإفلات.</div>
+
+  <!-- ═══ 3: إنشاء المستودع ورفع الملفات ═══ -->
+  <div class="chapter-header">
+    <div class="sec-tag">القسم الثالث</div>
+    <div class="sec-title">الجزء الأول: إنشاء المستودع ورفع الملفات</div>
+    <div class="sec-divider"></div>
+  </div>
+
+  <p>في هذا الجزء تنشئ مستودعاً جديداً على حسابك في GitHub وترفع إليه ملفات الحزمة. العملية كلها من المتصفح ولا تحتاج تثبيت أي برنامج على جهازك، وتستغرق أقل من عشر دقائق. احتفظ بملف الحزمة المضغوط (ER1991_Radar_GitHub.zip) في مكان تعرفه قبل البدء.</p>
+
+  <div class="step"><div class="num">1</div><div class="st-body">
+    <div class="st-title">إنشاء حساب GitHub (إن لم يكن لديك حساب)</div>
+    <div class="st-desc">افتح <span class="path">github.com</span> واضغط <b>Sign up</b>، ثم أدخل بريدك الإلكتروني وكلمة مرور واسم مستخدم. اختر اسماً مستخدماً مختصراً لأنه سيظهر في روابط مستودعاتك وصفحات النشر لاحقاً. أكّد البريد الإلكتروني عبر الرسالة التي ستصلك لتكتمل تهيئة الحساب.</div>
+  </div></div>
+
+  <div class="step"><div class="num">2</div><div class="st-body">
+    <div class="st-title">إنشاء مستودع جديد</div>
+    <div class="st-desc">اضغط زر <b>+</b> أعلى الصفحة ثم <b>New repository</b>. في خانة الاسم اكتب مثلاً <span class="path">ER1991-Radar</span>. اختر إما <b>Public</b> (مفتوح للجميع، وActions فيه مجانية بلا حدود) أو <b>Private</b> (خاص بك، وفيه مبلغ محدود من دقائق Actions المجانية شهرياً يكفي تشغيلات يومية عادية). اترك بقية الخيارات كما هي ثم اضغط <b>Create repository</b>.</div>
+  </div></div>
+
+  <div class="step"><div class="num">3</div><div class="st-body">
+    <div class="st-title">رفع الملفات بالسحب والإفلات</div>
+    <div class="st-desc">في صفحة المستودع الفارغ اضغط رابط <b>uploading an existing file</b> (أو <b>Upload files</b> من زر Add file). افكّ ضغط الحزمة على جهازك، ثم اسحب كل الملفات والمجلدات دفعة واحدة إلى منطقة الرفع — بما فيها مجلدا <b>.github</b> و<b>.devcontainer</b> و<b>docs</b>. ستظهر لك قائمة بالملفات أثناء الرفع؛ انتظر اكتمال شريط التقدم لكل ملف.</div>
+  </div></div>
+
+  <div class="step"><div class="num">4</div><div class="st-body">
+    <div class="st-title">حفظ التغييرات (Commit)</div>
+    <div class="st-desc">بعد اكتمال الرفع انزل إلى أسفل الصفحة، اكتب وصفاً قصيراً مثل <span class="path">الإصدار الأول v7.0</span>، وتأكد أن الخيار <b>Commit directly to the main branch</b> محدد، ثم اضغط <b>Commit changes</b>. ستنتقل إلى صفحة المستودع وترى قائمة الملفات.</div>
+  </div></div>
+
+  <div class="step"><div class="num">5</div><div class="st-body">
+    <div class="st-title">التحقق النهائي قبل التشغيل</div>
+    <div class="st-desc">تأكد من وجود <span class="path">er1991_radar.py</span> و<span class="path">run_radar.py</span> و<span class="path">config.json</span> و<span class="path">requirements.txt</span> في الصفحة الرئيسية، ومن وجود مجلد <span class="path">.github/workflows</span> وبداخله ملف <b>radar.yml</b>، ومجلد <span class="path">.devcontainer</span> وبداخله ملفا <b>devcontainer.json</b> و<b>setup.sh</b>. اكتمل التجهيز — لديك الآن نسخة تعمل بالكامل على GitHub.</div>
+  </div></div>
+
+  <div class="note-box warn"><b class="t">إذا لم يظهر مجلد .github بعد الرفع</b>
+  بعض المتصفحات تتجاهل المجلدات التي تبدأ بنقطة أثناء السحب. الحل: من صفحة المستودع اضغط <b>Add file ← Create new file</b>، واكتب في خانة الاسم <span class="mono">.github/workflows/radar.yml</span> (بمجرد كتابة الشرطة المائلة سيتحول الاسم إلى مسار مجلدات)، ثم الصق محتوى الملف من الحزمة واضغط Commit. كرر الطريقة نفسها لأي ملف داخل .devcontainer.</div>
+
+  <!-- ═══ 4: التشغيل عبر Codespaces ═══ -->
+  <div class="chapter-header">
+    <div class="sec-tag">القسم الرابع</div>
+    <div class="sec-title">الجزء الثاني: التشغيل التفاعلي عبر Codespaces</div>
+    <div class="sec-divider"></div>
+  </div>
+
+  <p><b>GitHub Codespaces</b> هو بيئة عمل سحابية كاملة تعمل من المتصفح وتشبه كولاب في فكرتها: سيرفر جاهز بالبايثون يفتح مباشرة على مستودعك، وتشغّل فيه دفتر Jupyter بالواجهة التفاعلية نفسها. هذا هو الخيار الأقرب لتجربة كولاب: تدخل الرموز، تضغط زر الفحص، تشاهد النتائج، وتصدّر التقارير بالأزرار نفسها.</p>
+
+  <div class="step"><div class="num">1</div><div class="st-body">
+    <div class="st-title">فتح بيئة جديدة</div>
+    <div class="st-desc">من صفحة المستودع اضغط الزر الأخضر <b>Code</b> ثم تبويب <b>Codespaces</b> ثم <b>Create codespace on main</b>. ستفتح نافذة محرر VS Code داخل المتصفح، وتبدأ الطرفية السفلية تلقائياً بتثبيت كل التبعيات (مكتبات النظام ثم حزم بايثون ثم فحص ذاتي للمحرّك).</div>
+  </div></div>
+
+  <div class="step"><div class="num">2</div><div class="st-body">
+    <div class="st-title">انتظار اكتمال التثبيت التلقائي</div>
+    <div class="st-desc">لا تعمل قبل انتهاء الطرفية — التثبيت يستغرق دقيقتين إلى ثلاث. عند انتهائه سترى في آخر الطرفية الرسالة: <span class="path">كل شيء جاهز! افتح الملف ER1991_Radar.ipynb</span>. هذا التثبيت يحدث مرة واحدة عند إنشاء البيئة فقط.</div>
+  </div></div>
+
+  <div class="step"><div class="num">3</div><div class="st-body">
+    <div class="st-title">فتح دفتر الواجهة التفاعلية</div>
+    <div class="st-desc">من مستكشف الملفات يساراً اضغط <span class="path">ER1991_Radar.ipynb</span>. سيفتح كدفتر Jupyter داخل المحرر. عند طلب اختيار المحرك (Kernel) اختر <b>Python 3.11</b> الموصى به تلقائياً.</div>
+  </div></div>
+
+  <div class="step"><div class="num">4</div><div class="st-body">
+    <div class="st-title">عرض الواجهة</div>
+    <div class="st-desc">اضغط زر التشغيل <b>▶</b> على الخلية الأولى وانتظر ثوانٍ — ستظهر <b>نفس واجهة كولاب تماماً</b>: حقل الرموز، قوائم السوق والمؤشر المرجعي وأسلوب الاستثمار واللغة، خانات رأس المال والمخاطرة، مربعات الخيارات، لوحة الإعدادات الكاملة بتبويباتها، وأزرار التصدير.</div>
+  </div></div>
+
+  <div class="step"><div class="num">5</div><div class="st-body">
+    <div class="st-title">تشغيل الفحص</div>
+    <div class="st-desc">أدخل الرموز في الحقل الأول (حتى 100 رمز مفصولة بفاصلة، بصيغة كولاب نفسها: <span class="path">AAPL, EGX:COMI, TADAWUL:2222, BTC</span>)، اضبط بقية الخيارات كما تحب، ثم اضغط <b>«بدء الفحص والتحليل الشامل»</b>. شريط التقدم سيظهر مراحل التحميل والتحليل، ويستغرق الفحص من دقيقة إلى خمس حسب عدد الرموز.</div>
+  </div></div>
+
+  <div class="step"><div class="num">6</div><div class="st-body">
+    <div class="st-title">التصدير والتنزيل</div>
+    <div class="st-desc">بعد اكتمال التحليل اضغط أي زر تصدير: <b>HTML التفاعلي</b> أو <b>Excel</b> أو <b>PDF</b> أو <b>صور PNG</b> أو <b>CSV</b>. ستُحفظ الملفات في مجلد <span class="path">ER1991_Reports</span>، وتظهر رسالة بالملف وحجمه. للتنزيل على جهازك: من شجرة الملفات يساراً اذهب إلى مجلد التقارير وانقر بالزر الأيمن على الملف واختر <b>Download</b> — ويمكنك فتح الـHTML بنقرة مزدوجة داخل البيئة مباشرة.</div>
+  </div></div>
+
+  <div class="step"><div class="num">7</div><div class="st-body">
+    <div class="st-title">إيقاف البيئة بعد الانتهاء</div>
+    <div class="st-desc">الحساب المجاني يشمل ساعات Codespaces شهرية كافية للاستخدام اليومي. عند الانتهاء أوقف البيئة: افتح قائمة <span class="path">Codespaces</span> أعلى الصفحة واختر <b>Stop current codespace</b>، أو من <span class="path">github.com/codespaces</span> اضغط النقاط الثلاث بجانب البيئة ثم Stop أو Delete. البيئة المتوقفة تحتفظ بملفاتك وترجع كما هي عند فتحها مجدداً.</div>
+  </div></div>
+
+  <div class="note-box ok"><b class="t">تشغيل من الطرفية داخل Codespaces (بدون واجهة)</b>
+  يمكنك أيضاً تشغيل فحص كامل من طرفية البيئة بسطر واحد يقرأ إعدادات <b>config.json</b> ويولّد كل الصيغ المطلوبة، وهو الأسلوب نفسه الذي تستخدمه GitHub Actions داخلياً:
+  <div class="cmd">python run_radar.py<span class="cm">            # يقرأ config.json ويصدّر كل الصيغ</span></div></div>
+
+  <!-- ═══ 5: التشغيل عبر Actions ═══ -->
+  <div class="chapter-header">
+    <div class="sec-tag">القسم الخامس</div>
+    <div class="sec-title">الجزء الثالث: التشغيل الآلي عبر GitHub Actions</div>
+    <div class="sec-divider"></div>
+  </div>
+
+  <p><b>GitHub Actions</b> يشغّل الأداة على سيرفرات GitHub دون أن تفتح أي بيئة أو متصفح إضافي: تضغط زر تشغيل، وينفّذ الفحص كاملاً بقراءة الإعدادات من <span class="mono">config.json</span>، ثم يسلّمك كل ملفات التقارير. هذا الخيار مثالي للفحص اليومي المنتظم وبقوائم رموز ثابتة، وهو يعمل جنباً إلى جنب مع Codespaces دون أي تعارض.</p>
+
+  <div class="step"><div class="num">1</div><div class="st-body">
+    <div class="st-title">فتح تبويب Actions</div>
+    <div class="st-desc">من صفحة المستودع اضغط تبويب <b>Actions</b> في الشريط العلوي. إن ظهرت رسالة تأكيد مثل <span class="path">I understand my workflows, go ahead and enable them</span> اضغطها مرة واحدة لتفعيل التشغيل الآلي في هذا المستودع. سترى في القائمة اليمنى سير عمل باسم <b>ER1991 Radar</b>.</div>
+  </div></div>
+
+  <div class="step"><div class="num">2</div><div class="st-body">
+    <div class="st-title">بدء تشغيل يدوي</div>
+    <div class="st-desc">اضغط <b>ER1991 Radar</b> في القائمة ثم الزر الرمادي <b>Run workflow</b>. ستظهر نافذة صغيرة فيها حقلان: <b>الرموز المفحوصة</b> — اتركه فارغاً ليُقرأ ملف config.json، أو اكتب قائمة رموز لهذا التشغيل فقط مثل <span class="path">COMI.CA, HRHO.CA, SWDY.CA</span> — و<b>لغة النتائج</b> (عربي أو English). اضغط الزر الأخضر <b>Run workflow</b> لتبدأ.</div>
+  </div></div>
+
+  <div class="step"><div class="num">3</div><div class="st-body">
+    <div class="st-title">متابعة سير التشغيل</div>
+    <div class="st-desc">سيظهر سطر تشغيل جديد بعلامة دائرة صفراء. اضغط عليه لفتح السجل الحي: تثبيت التبعيات، ثم تحميل الأسعار، ثم التحليل رمزاً رمزاً، وأخيراً ملخص النتائج بنص عربي يعرض قرار ودرجة كل رمز مثلما تظهر في كولاب. التشغيل الكامل يستغرق عادةً من 5 إلى 15 دقيقة حسب عدد الرموز.</div>
+  </div></div>
+
+  <div class="step"><div class="num">4</div><div class="st-body">
+    <div class="st-title">تنزيل مرفقات التشغيل (Artifacts)</div>
+    <div class="st-desc">بعد نجاح التشغيل (علامة خضراء) انزل إلى قسم <b>Artifacts</b> أسفل صفحة السجل وستجد مرفقاً باسم <span class="path">ER1991_Reports</span> يحتوي كل ملفات التقارير مضغوطة: HTML التفاعلي وExcel وCSV وPDF وصور PNG. المرفقات تبقى متاحة للتنزيل ثلاثين يوماً من كل تشغيل.</div>
+  </div></div>
+
+  <div class="step"><div class="num">5</div><div class="st-body">
+    <div class="st-title">نسخة التقارير داخل المستودع</div>
+    <div class="st-desc">بكل تشغيل ناجح يُحدَّث تلقائياً مجلد <span class="path">reports</span> في المستودع بآخر ملفات النتائج (مع Commit باسم «تقارير ER1991»). يمكنك تصفح التقارير السابقة من سجل Commits، ومشاركة رابط ملف HTML مباشرة مع أي شخص إن كان المستودع مفتوحاً.</div>
+  </div></div>
+
+  <div class="note-box info"><b class="t">التقرير التفاعلي على GitHub Pages</b>
+  مع كل تشغيل يُنشر تقرير HTML التفاعلي أيضاً على موقع Pages خاص بمستودعك يفتح من أي متصفح — طريقة التفعيل في الجزء التالي.</div>
+
+  <!-- ═══ 6: تفعيل Pages ═══ -->
+  <div class="chapter-header">
+    <div class="sec-tag">القسم السادس</div>
+    <div class="sec-title">الجزء الرابع: نشر التقرير التفاعلي على GitHub Pages</div>
+    <div class="sec-divider"></div>
+  </div>
+
+  <p><b>GitHub Pages</b> يحوّل تقرير HTML التفاعلي إلى صفحة ويب دائمة برابط مباشر تفتحه من الهاتف أو أي جهاز دون تنزيل أي ملف. الصفحة تُحدَّث تلقائياً مع كل تشغيل ناجح من Actions، فيصبح الرابط دائماً آخر تقرير فحص بنفس تصميم كولاب ولوحة مؤشراته وفلاتره وخط Cairo.</p>
+
+  <div class="step"><div class="num">1</div><div class="st-body">
+    <div class="st-title">فتح إعدادات Pages</div>
+    <div class="st-desc">من صفحة المستودع: <b>Settings ← Pages</b> (في القائمة الجانبية تحت قسم Code and automation). مرة واحدة فقط.</div>
+  </div></div>
+
+  <div class="step"><div class="num">2</div><div class="st-body">
+    <div class="st-title">اختيار المصدر</div>
+    <div class="st-desc">تحت <b>Build and deployment</b>، في خانة <b>Source</b> اختر <span class="path">GitHub Actions</span> بدل Deploy from a branch. هذا يسمح لسير العمل الحالي بنشر التقرير تلقائياً.</div>
+  </div></div>
+
+  <div class="step"><div class="num">3</div><div class="st-body">
+    <div class="st-title">تشغيل الفحص والحصول على الرابط</div>
+    <div class="st-desc">شغّل سير عمل مرة واحدة (أي Run workflow). بعد نجاح مرحلة <b>نشر GitHub Pages</b> سيظهر رابط الموقع في: Settings ← Pages، وأيضاً في تبويب <b>Environments ← github-pages</b>. صيغة الرابط: <span class="path">https://اسم-المستخدم.github.io/ER1991-Radar/</span>. من بعدها يتحدث التقرير على هذا الرابط وحده مع كل تشغيل.</div>
+  </div></div>
+
+  <div class="note-box warn"><b class="t">خصوصية التقارير</b>
+  في المستودع العام يقرأ أي شخص الرابط، وفي الخاص تكون صفحة Pages متاحة لك فقط بعد تسجيل الدخول. إن أردت مشاركة النتائج مع فريق محدد دون نشرها، اعتمد على مرفقات Artifacts في المستودع الخاص.</div>
+
+  <!-- ═══ 7: تعديل config.json ═══ -->
+  <div class="chapter-header">
+    <div class="sec-tag">القسم السابع</div>
+    <div class="sec-title">الجزء الخامس: تعديل الرموز والإعدادات (config.json)</div>
+    <div class="sec-divider"></div>
+  </div>
+
+  <p>ملف <span class="mono">config.json</span> هو نسخة نصية من حقول الواجهة التفاعلية، ويُقرأ في كل تشغيل آلي من Actions ومن التشغيل الطرفي. عدّله من واجهة GitHub مباشرة: افتح الملف ثم اضغط أيقونة القلم <b>Edit</b>، عدّل القيم، ثم اضغط <b>Commit changes</b> — التشغيل القادم يستخدم القيم الجديدة فوراً. أهم المفاتيح:</p>
+
+  <table>
+    <tr><th style="width:22%">المفتاح</th><th>الوصف والقيم الممكنة</th></tr>
+    <tr><td class="k"><span class="mono">symbols</span></td><td>الرموز المفحوصة حتى 100، مفصولة بفاصلة — بصيغة التعيين الذكي نفسها: <span class="mono">AAPL, EGX:COMI, TADAWUL:2222, COMI.CA, XAUUSD, BTC</span> وأسماء شائعة مثل <span class="mono">INTEL</span> و<span class="mono">جوهينة</span> تُحوَّل تلقائياً.</td></tr>
+    <tr><td class="k"><span class="mono">market</span></td><td>سوق الرموز المجردة: <span class="mono">AUTO</span> تلقائي، أو US / EGX / TASI.</td></tr>
+    <tr><td class="k"><span class="mono">bench</span></td><td>المؤشر المرجعي: <span class="mono">AUTO</span> حسب سوق كل سهم، أو رمز محدد مثل <span class="mono">^NDX</span> أو <span class="mono">^CASE30</span>.</td></tr>
+    <tr><td class="k"><span class="mono">style</span></td><td>أسلوب الاستثمار: <span class="mono">Auto</span> أو Value أو Growth أو Swing أو Medium Term أو Long Term.</td></tr>
+    <tr><td class="k"><span class="mono">lang</span></td><td>لغة النتائج والتقارير: <span class="mono">عربي</span> أو <span class="mono">English</span>.</td></tr>
+    <tr><td class="k"><span class="mono">capital / risk_pct</span></td><td>رأس المال ونسبة المخاطرة في كل صفقة (نفس خانتي الواجهة).</td></tr>
+    <tr><td class="k"><span class="mono">deep</span></td><td>التحليل المالي العميق <span class="mono">true</span> أو <span class="mono">false</span> — تعطيله يسرّع الفحص كثيراً على حساب Piotroski وAltman وBeneish والقيمة العادلة المالية.</td></tr>
+    <tr><td class="k"><span class="mono">exports</span></td><td>الصيغ المصدرَّة تلقائياً: عيّن <span class="mono">false</span> لأي صيغة لا تحتاجها لتسريع التشغيل.</td></tr>
+    <tr><td class="k"><span class="mono">cards_top</span></td><td>عدد بطاقات الأسهم في تقارير HTML وPDF وPNG (من 5 إلى 100).</td></tr>
+    <tr><td class="k"><span class="mono">settings</span></td><td>تجاوزات لوحة الإعدادات الخارجية بنفس مفاتيح الواجهة — انظر المثال أدناه.</td></tr>
+  </table>
+
+  <div class="sub-title">مثال: قائمة رموز مصرية بتجاوزات القيمة العادلة</div>
+  <div class="cmd">{
+  "symbols": "COMI, HRHO, JUFO, SWDY, TMGH, ABUK",
+  "market": "EGX",
+  "lang": "عربي",
+  "capital": 25000,
+  "deep": true,
+  "exports": { "html": true, "excel": true, "csv": false, "pdf": true, "png": false },
+  "settings": { "fvMarketPE": true, "fvBand": 20, "fvExt": { "SWDY": 115.6 } }
+}</div>
+  <p>مفتاح <span class="mono">settings</span> يقبل أي مفتاح من لوحة الإعدادات بتبويباتها الثمانية: منفرداً مثل <span class="mono">fvMarketPE</span> أو <span class="mono">guardChase</span>، أو متداخلاً للقواميس مثل <span class="mono">fvW.pe</span> لوزن نموذج P/E، أو <span class="mono">fvExt</span> للأهداف الخارجية، أو <span class="mono">fvCoe</span> لمدخلات الفائدة والتضخم لكل سوق. اتركه قاموساً فارغاً <span class="mono">{}</span> ليعمل كل شيء بالقيم الافتراضية المطابقة لكولاب تماماً.</p>
+
+  <!-- ═══ 8: الجدولة ═══ -->
+  <div class="chapter-header">
+    <div class="sec-tag">القسم الثامن</div>
+    <div class="sec-title">الجزء السادس: التشغيل المجدول التلقائي (اختياري)</div>
+    <div class="sec-divider"></div>
+  </div>
+
+  <p>يمكن جعل الفحص يعمل يومياً بلا تدخل: بعد إغلاق جلسة السوق تُنفَّذ عملية فحص كاملة، وتُحدَّث مرفقات التشغيل ومجلد reports وصفحة Pages كلها تلقائياً. التعديل سطران في ملف سير العمل:</p>
+
+  <div class="step"><div class="num">1</div><div class="st-body">
+    <div class="st-title">فتح ملف سير العمل للتعديل</div>
+    <div class="st-desc">افتح <span class="path">.github/workflows/radar.yml</span> من المستودع واضغط أيقونة القلم <b>Edit</b>.</div>
+  </div></div>
+
+  <div class="step"><div class="num">2</div><div class="st-body">
+    <div class="st-title">إزالة التعليق عن جدولة الـcron</div>
+    <div class="st-desc">انزل إلى سطري <b>schedule</b> المعلّقين بعلامة <span class="mono">#</span> واحذف العلامة من كليهما، ثم اضبط الوقت: التعبير <span class="mono">0 13 * * 0-4</span> يعني الساعة 13:00 بتوقيت UTC أي 15:00 بتوقيت القاهرة والرياض، أيام الأحد إلى الخميس (0-4). لاحظ أن الجدولة تعمل بتوقيت UTC دائماً — احسب الفرق (+2 شتاءً للقاهرة، +3 للرياض).</div>
+  </div></div>
+
+  <div class="step"><div class="num">3</div><div class="st-body">
+    <div class="st-title">حفظ التعديل</div>
+    <div class="st-desc">اضغط <b>Commit changes</b>. من بعده سيعمل الفحص تلقائياً في الموعد المحدد، ويظهر في تبويب Actions باسم <b>Scheduled</b>. يمكنك تعطيل الجدولة في أي وقت بإعادة علامة # قبل السطرين.</div>
+  </div></div>
+
+  <div class="note-box info"><b class="t">ملاحظتان عن الجدولة</b>
+  أولاً: جدولة GitHub تقريبية — قد يتأخر الإطلاق دقائق في أوقات الذروة، وهذا لا يؤثر على النتائج. ثانياً: التشغيل المجدول في المستودعات العامة مجاني دائماً؛ وفي الخاصة يستهلك من رصيد دقائق Actions الشهري (2000 دقيقة للحسابات المجانية — كافٍ لأكثر من 100 فحص شهري بمعدل 15 دقيقة).</div>
+
+  <!-- ═══ 9: ملاحظات وحدود ═══ -->
+  <div class="chapter-header">
+    <div class="sec-tag">القسم التاسع</div>
+    <div class="sec-title">ملاحظات وحدود مهمة</div>
+    <div class="sec-divider"></div>
+  </div>
+
+  <div class="map">
+    <div class="mcard"><div class="mh">حد الرموز</div><div class="mb">100 رمز كحد أقصى في كل فحص — نفس حد كولاب تماماً (MAX_SYMBOLS). الرموز الزائدة تُتجاهل مع تنبيه في السجل.</div></div>
+    <div class="mcard"><div class="mh">مصادر البيانات</div><div class="mb">ياهو فاينانس للتاريخ والمالية، وTradingView لسعر اليوم المصري والسعودي وEPS TTM والقيمة السوقية — نفس المنطق ونفس بدائل المؤشرات البديلة.</div></div>
+    <div class="mcard"><div class="mh">Google Sheet</div><div class="mb">يعمل في كولاب فقط لأنه يتطلب تسجيل دخول جوجل التفاعلي؛ على GitHub يُتخطى برسالة واضحة، وبقية الصيغ الخمس متاحة كاملة.</div></div>
+    <div class="mcard"><div class="mh">Codespaces المجاني</div><div class="mb">الحسابات الشخصية المجانية تشمل رصيداً شهرياً من ساعات-النواة (بمبيئة ثنائية النواة يعادل 60 ساعة تشغيل) — أوقف البيئة بعد كل استخدام لترشيد الرصيد.</div></div>
+    <div class="mcard"><div class="mh">الخصوصية</div><div class="mb">لا توجد أي مفاتيح أو كلمات سر في الملفات، والأداة تقرأ بيانات عامة فقط. مستودعك الخاص يبقى خاصاً بمعماريه.</div></div>
+    <div class="mcard"><div class="mh">طبيعة الأداة</div><div class="mb">أداة مساعدة في قراءة وفحص الأسهم ودعم القرار الاستثماري — ليست توصية بالشراء أو البيع، ولا تضمن دقة بيانات المصادر الخارجية.</div></div>
+  </div>
+
+  <!-- ═══ 10: حل المشكلات ═══ -->
+  <div class="chapter-header">
+    <div class="sec-tag">القسم العاشر</div>
+    <div class="sec-title">حل المشكلات الشائعة</div>
+    <div class="sec-divider"></div>
+  </div>
+
+  <table>
+    <tr><th style="width:34%">المشكلة</th><th>السبب والحل</th></tr>
+    <tr><td class="k">سير العمل ER1991 Radar لا يظهر في تبويب Actions</td><td>لم يُرفع ملف <span class="mono">.github/workflows/radar.yml</span> أو لم تُفعّل التشغيلات الآلية بعد. أعد رفع الملف بالطريقة المذكورة في تنبيه القسم الثالث، واضغط رسالة التفعيل إن ظهرت.</td></tr>
+    <tr><td class="k">فشل التشغيل عند تثبيت tvDatafeed</td><td>الحزمة تُجلب من GitHub وقد تتعطل شبكياً أحياناً. أعد تشغيل الـWorkflow مرة أخرى (Re-run). هي اختيارية تماماً — غيابها لا يوقف الأداة، فقط يفقدك بديل تاريخ TradingView للأسهم التي لا يغطيها ياهو.</td></tr>
+    <tr><td class="k">رسالة HTTP 429 أو Rate limit من ياهو</td><td>تقييد مؤقت من المصدر عند الطلبات الكثيفة. انتظر من 5 إلى 10 دقائق ثم أعد التشغيل، أو قلّل عدد الرموز في الفحص الواحد وقسّم القائمة على أكثر من تشغيل.</td></tr>
+    <tr><td class="k">مرفقات Artifacts فارغة أو مفقودة</td><td>افحص سجل الخطوة الأخيرة الحمراء في صفحة التشغيل؛ غالباً كل الرموز غير صالحة أو config.json فيه خطأ صياغة JSON. تحقق من الفواصل والاقتباسات المزدوجة.</td></tr>
+    <tr><td class="k">صفحة Pages لا تعمل أو قديمة</td><td>تأكد أن Source في الإعدادات هو GitHub Actions، وشغّل سير العمل مرة جديدة — الصفحة تتحدث مع كل تشغيل فقط. أول نشر قد يستغرق دقيقتين.</td></tr>
+    <tr><td class="k">الواجهة لا تظهر عند تشغيل الخلية في Codespaces</td><td>لم يكتمل تثبيت البيئة أو لم يُحدد المحرك الصحيح. انتظر رسالة «كل شيء جاهز» في الطرفية، واختر Kernel باسم Python 3.11، ثم أعد تشغيل الخلية الأولى.</td></tr>
+    <tr><td class="k">سهم مصري/سعودي بلا نتائج فنية</td><td>إن لم يوفّر ياهو تاريخاً حاول محاولة واحدة أخرى؛ الأداة تعوّض تلقائياً من TradingView للأسهم المدعومة. الأسهم الجديدة نسبياً قد تكون بلا تاريخ كافٍ (أقل من 60 شمعة) فتُستبعد بتنبيه واضح في السجل.</td></tr>
+    <tr><td class="k">أريد قيم القيمة العادلة كما في كولاب القديم</td><td>القيم الافتراضية في GitHub مطابقة لكولاب v7.0 بالضبط — لا تلمس مفتاح settings في config.json وستحصل على النتائج نفسها رقمياً.</td></tr>
+  </table>
+
+  <div class="note-box ok"><b class="t">قبل أول فحص رسمي</b>
+  يُنصح بإجراء فحص تجريبي بثلاثة رموز سريعة (مثل AAPL, COMI.CA, BTC) للتأكد من سلامة الإعداد، ثم الانتقال لقوائمك الكاملة. سجل كل تشغيل يعرض بوضوح عدد الرموز المحللة والمستبعدة مع الأسباب — اقرأه عند أي مفاجأة.</div>
+
+</div>
+
+<!-- ═══════════════════ صفحة الختام ═══════════════════ -->
+<div class="ending">
+  <div class="frame">
+    <div class="big">ER1991 Smart Investment Radar PRO</div>
+    <div class="deco-line"></div>
+    <div class="txt">
+      أداة مساعدة في قراءة وفحص الأسهم ودعم القرار الاستثماري،<br>
+      وليست توصية بالشراء أو البيع.<br><br>
+      النسخة المنقولة إلى GitHub مطابقة لإصدار كولاب v7.0<br>
+      في المنطق والحسابات والتصميم والنتائج.
+    </div>
+    <div class="ver">v7.0-GitHub · دليل التشغيل · نوفمبر 2026</div>
+  </div>
+</div>
+
+</body>
+</html>
