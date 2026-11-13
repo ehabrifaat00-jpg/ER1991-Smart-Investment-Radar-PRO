@@ -1,0 +1,120 @@
+name: ER1991 Radar
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ER1991 Smart Investment Radar PRO — تشغيل تلقائي على GitHub Actions
+#  • زر تشغيل يدوي (Run workflow) مع إمكانية إدخال الرموز (وإلا يُقرأ config.json)
+#  • تشغيل مجدول اختياري: أزل التعليق عن سطري schedule أدناه واضبط التوقيت
+#  • النتائج: مرفقات التشغيل (Artifacts) + حفظ في مجلد reports/ + نشر HTML على Pages
+# ═══════════════════════════════════════════════════════════════════════════════
+
+on:
+  workflow_dispatch:
+    inputs:
+      symbols:
+        description: 'الرموز المفحوصة — مثال: AAPL, EGX:COMI, TADAWUL:2222 (اتركها فارغة لاستخدام ملف config.json)'
+        required: false
+        default: ''
+      lang:
+        description: 'لغة النتائج والتقارير'
+        required: false
+        default: 'عربي'
+        type: choice
+        options:
+          - 'عربي'
+          - 'English'
+  # ⏰ التشغيل التلقائي اليومي (اختياري): أزل # من السطرين التاليين.
+  #    الوقت بتوقيت UTC — المثال: 13:00 UTC = 15:00 بتوقيت القاهرة/الرياض، أيام الأحد–الخميس.
+  # schedule:
+  #   - cron: '0 13 * * 0-4'
+
+permissions:
+  contents: write      # لحفظ التقارير في مجلد reports/ داخل المستودع
+  pages: write         # لنشر التقرير التفاعلي على GitHub Pages
+  id-token: write      # مصادقة نشر Pages
+
+concurrency:
+  group: er1991-radar
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    name: فحص وتحليل الأسهم
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: تحميل المستودع
+        uses: actions/checkout@v4
+
+      - name: تجهيز بايثون 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: مكتبات النظام (poppler + خطوط عربية + مكتبات WeasyPrint)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils fonts-noto-core fonts-noto-color-emoji \
+            libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0 > /dev/null
+
+      - name: تثبيت تبعيات بايثون
+        run: |
+          python -m pip install --upgrade pip -q
+          pip install -r requirements.txt -q
+
+      - name: تشغيل الفحص والتحليل (نفس منطق كولاب حرفياً)
+        env:
+          WF_SYMBOLS: ${{ github.event.inputs.symbols }}
+          WF_LANG: ${{ github.event.inputs.lang }}
+        run: |
+          ARGS=()
+          if [ -n "$WF_SYMBOLS" ]; then ARGS+=(--symbols "$WF_SYMBOLS"); fi
+          if [ -n "$WF_LANG" ]; then ARGS+=(--lang "$WF_LANG"); fi
+          python run_radar.py "${ARGS[@]}" --pages pages
+
+      - name: رفع مرفقات التشغيل (Artifacts) — كل ملفات التقارير
+        uses: actions/upload-artifact@v4
+        with:
+          name: ER1991_Reports
+          path: ER1991_Reports/
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: حفظ نسخة من التقارير في المستودع (مجلد reports/)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm -rf reports
+          mkdir -p reports
+          cp ER1991_Reports/* reports/ 2>/dev/null || true
+          git add reports
+          if git diff --cached --quiet; then
+            echo "لا تغييرات جديدة في التقارير."
+          else
+            git commit -m "📊 تقارير ER1991 — تشغيل $(date -u +'%Y-%m-%d %H:%M') UTC"
+            git push
+          fi
+
+      - name: تجهيز تقرير GitHub Pages (HTML التفاعلي)
+        run: |
+          if [ ! -f pages/index.html ]; then
+            mkdir -p pages
+            printf '<!DOCTYPE html><html lang="ar" dir="rtl"><meta charset="utf-8"><title>ER1991 Radar</title><body style="font-family:sans-serif;text-align:center;padding:60px"><h2>لم يُنتج هذا التشغيل تقرير HTML</h2><p>فعّل html في exports داخل config.json ثم أعد التشغيل.</p></body></html>' > pages/index.html
+            echo "لم يُعثر على تقرير HTML (معطّل في الإعدادات) — نُشرت صفحة إرشادية."
+          fi
+
+      - name: رفع تقرير Pages للنشر
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: pages
+
+  deploy-pages:
+    name: نشر GitHub Pages
+    needs: scan
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: النشر
+        id: deployment
+        uses: actions/deploy-pages@v4
