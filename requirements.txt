@@ -1,0 +1,19 @@
+# ER1991 Smart Investment Radar PRO — تبعيات بيئة GitHub (نفس حزم خلية التثبيت في كولاب)
+# التثبيت: pip install -r requirements.txt
+# (خلية التثبيت داخل er1991_radar.py تعمل في كولاب فقط كما هي — هنا تعوضها هذه القائمة)
+
+pandas>=2.0
+numpy>=1.24
+yfinance>=0.2.40
+xlsxwriter>=3.0
+openpyxl>=3.1
+plotly>=5.18
+weasyprint>=60
+pdf2image>=1.16
+arabic-reshaper>=3.0
+python-bidi>=0.4
+gspread>=6.0
+ipywidgets>=8.0
+
+# اختياري (v6.4+): تاريخ مصر/السعودية من TradingView عندما لا يوفره ياهو — يُستخدم تلقائياً إن توفرت
+tvdatafeed @ git+https://github.com/rongardF/tvdatafeed.git
